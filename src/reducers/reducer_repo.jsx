@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import { FETCH_REPOS } from '../actions';
 
-export default function(state = [], action) {
+export default function(state = {}, action) {
 	switch (action.type) {
 		case FETCH_REPOS:
 			/*
@@ -13,6 +13,7 @@ export default function(state = [], action) {
 			console.log('repos', repos);
 			return repos;
 			*/
+			console.log('reducer_repo state', state);
 			return _.mapKeys(action.payload.data, 'id');
 		default:
 			return state;
