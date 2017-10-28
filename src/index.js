@@ -7,7 +7,8 @@ import ReduxPromise from 'redux-promise';
 
 import reducers from './reducers';
 import RepoList from './components/repo_list';
-//import IssueList from './components/issue_list';
+import Authenticate from './components/authenticate';
+import IssueList from './components/issue_list';
 
 const createStoreWithMiddleware = applyMiddleware(ReduxPromise)(createStore);
 
@@ -16,7 +17,9 @@ ReactDOM.render(
 		<BrowserRouter>
 			<div>
 				<Switch>
-					<Route path="/" component={RepoList} />
+					<Route path="/repos/:id" component={IssueList} />
+					<Route path="/repos" component={RepoList} />
+					<Route path="/" component={Authenticate} />
 				</Switch>
 			</div>
 		</BrowserRouter>
