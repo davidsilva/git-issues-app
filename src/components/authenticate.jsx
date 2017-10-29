@@ -1,30 +1,19 @@
 import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom';
-import { connect } from 'react-redux';
 
 class Authenticate extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			token: '',
-			redirect: false
+			token: ''
 		}
 	}
 
-	handleClick() {
-		console.log('this.state', this.state);
-		const { token } = this.state;
-		this.setState({token: token, redirect: true});
-		console.log('Redirect');
+	handleClick = () => {
+		console.log('handleClick this.props', this.props);
+		this.props.getToken(this.state.token);
 	}
 
 	render() {
-		const { redirect, token } = this.state;
-
-		if (redirect) {
-			return <Redirect to='/repos' />;
-		}
-
 		return (
 			<div className="form-group">
 				<input
@@ -40,14 +29,9 @@ class Authenticate extends Component {
 					Set token
 				</button>
 			</div>
-		)
-	}
-}
-
-function mapStateToProps(state) {
-	return {
-		token: state
+		);
 	}
 }
 
 export default Authenticate;
+

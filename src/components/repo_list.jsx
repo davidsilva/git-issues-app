@@ -5,14 +5,24 @@ import { Link } from 'react-router-dom';
 import { fetchRepos } from '../actions';
 
 class RepoList extends Component {
+	constructor(props) {
+		super(props);
+
+		this.state = {
+			authenticated: false,
+			token: ''
+		}
+	}
+	
 	componentDidMount() {
-		this.props.fetchRepos();
+		console.log('componentDidMount this.props.token', this.props.token)
+		if (this.props.token) {
+			this.props.fetchRepos(this.props.token);
+
+		}
 	}
 
 	renderRepos() {
-		//if (this.props.repos.length === 0) return;
-		console.log('renderRepos this.props.repos', this.props.repos);
-
 		return _.map(this.props.repos, repo => {
 			return (
 				<li className="list-group-item" key={repo.id}>
