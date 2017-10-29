@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Authenticate from './authenticate';
 import RepoList from '../containers/repo_list';
-var that = this;
+
 class App extends Component {
 	constructor(props) {
 		super(props);

@@ -6,7 +6,6 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import ReduxPromise from 'redux-promise';
 
 import reducers from './reducers';
-import RepoList from './containers/repo_list';
 import App from './components/app';
 import IssueList from './components/issue_list';
 
