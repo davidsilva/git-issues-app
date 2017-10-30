@@ -1,3 +1,17 @@
+Coding Challenge
+
+Instructions
+
+On the command line enter...
+
+npm install
+
+npm start
+
+A browser window should open, where you can enter your GitHub token. The rest should be self-explanatory.
+
+The content below is from Create React App.
+
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
 
 Below you will find some information on how to perform common tasks.<br>

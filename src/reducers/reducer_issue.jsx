@@ -1,5 +1,4 @@
-import _ from 'lodash';
-import { FETCH_ISSUES } from '../actions';
+import { FETCH_ISSUES } from '../constants';
 
 export default function(state = [], action) {
 	switch (action.type) {

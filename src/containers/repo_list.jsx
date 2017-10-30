@@ -1,28 +1,29 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
 import { fetchRepos, fetchIssues } from '../actions';
+import { bake_cookie, read_cookie } from 'sfcookies';
 
 class RepoList extends Component {
 	constructor(props) {
 		super(props);
+		var sortKeyCookie = read_cookie('sortKey');
+		var sortKey = (sortKeyCookie.length === 0) ? '' : sortKeyCookie;
 
 		this.state = {
 			authenticated: false,
 			token: '',
-			sortKey: null
+			sortKey: sortKey
 		}
 	}
 	
 	componentDidMount() {
-		console.log('componentDidMount this.props.token', this.props.token)
 		if (this.props.token) {
 			this.props.fetchRepos(this.props.token);
 
 		}
 	}
-// GET /repos/:owner/:repo/issues
+
 	renderRepos() {
 		return _.map(this.props.repos, repo => {
 			return (
@@ -51,7 +52,6 @@ class RepoList extends Component {
 	}
 
 	renderIssues() {
-		console.log('this.state.sortKey', this.state.sortKey);
 		if (this.state.sortKey) {
 			this.sortIssues(this.state.sortKey);
 		}
@@ -74,18 +74,25 @@ class RepoList extends Component {
 		this.props.fetchIssues(repoId, ownerId, token);
 	}
 
+	selectSortKey(sortKey) {
+		bake_cookie('sortKey', sortKey);
+		this.setState({sortKey: sortKey});
+	}
+
 	render() {
-		console.log('this.props.issues', this.props.issues);
 		if (this.props.issues && this.props.issues.length > 0) {
+			console.log('this.state.sortKey', this.state.sortKey);
 			return (
 				<div className="container">
 					<div className="row">
 						<div className="col-xs-6">
+							<h2>Your Repos</h2>
 							<ol className="list-group">
 								{this.renderRepos()}
 							</ol>
 						</div>
 						<div className="col-xs-6">
+							<h2>Issues</h2>
 							<div className="form-group">
 								<label
 									htmlFor="sort-select"
@@ -95,7 +102,8 @@ class RepoList extends Component {
 								</label>
 								<select
 									className="form-control"
-									onChange={event => this.setState({sortKey: event.target.value})}
+									onChange={event => this.selectSortKey(event.target.value)}
+									value={this.state.sortKey}
 								>
 									<option defaultValue={""}></option>
 									<option value="title">Title</option>
@@ -116,6 +124,7 @@ class RepoList extends Component {
 			<div className="container">
 				<div className="row">
 					<div className="col-xs-12">
+						<h2>Your Repos</h2>
 						<ol className="list-group">
 							{this.renderRepos()}
 						</ol>
@@ -126,15 +135,8 @@ class RepoList extends Component {
 	}
 }
 
-/*
-The "state" argument is the *application* state
-*/
 function mapStateToProps(state) {
-	console.log('mapStateToProps state', state);
 	return { repos: state.repos, issues: state.issues };
 }
 
-// export a "container"
-// connect takes a function and a component and produces a container
-// whenever application state changes, container will automatically re-render
 export default connect(mapStateToProps, { fetchRepos, fetchIssues })(RepoList);

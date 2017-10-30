@@ -1,9 +1,7 @@
 import axios from 'axios';
+import { FETCH_REPOS, FETCH_ISSUES } from '../constants';
 
 const ROOT_URL = 'https://api.github.com/';
-
-export const FETCH_REPOS = 'FETCH_REPOS';
-export const FETCH_ISSUES = 'FETCH_ISSUES';
 
 export function fetchRepos(token) {
 	const url = `${ROOT_URL}user/repos`;
@@ -22,7 +20,6 @@ export function fetchRepos(token) {
 		payload: request
 	};
 }
-// GET /repos/:owner/:repo/issues
 
 export function fetchIssues(repoId, ownerId, token) {
 	const url = `${ROOT_URL}repos/${ownerId}/${repoId}/issues`;

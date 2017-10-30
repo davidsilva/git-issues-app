@@ -13,7 +13,6 @@ class App extends Component {
 	}
 
 	getToken = (token) => {
-		console.log('getToken this', this);
 		this.setState({token: token, authenticated: true});
 	}
 
