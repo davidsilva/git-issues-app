@@ -10,7 +10,8 @@ class RepoList extends Component {
 
 		this.state = {
 			authenticated: false,
-			token: ''
+			token: '',
+			sortKey: null
 		}
 	}
 	
@@ -35,8 +36,26 @@ class RepoList extends Component {
 		});
 	}
 
+	sortIssues(sortKey) {
+		this.props.issues.sort(function(a, b) {
+			var valueA = a[sortKey];
+			var valueB = b[sortKey];
+			if (valueA < valueB) {
+				return -1;
+			}
+			if (valueA > valueB) {
+				return 1;
+			}
+			return 0;
+		});
+	}
+
 	renderIssues() {
-		console.log('this.props.issues', this.props.issues);
+		console.log('this.state.sortKey', this.state.sortKey);
+		if (this.state.sortKey) {
+			this.sortIssues(this.state.sortKey);
+		}
+
 		return this.props.issues.map((issue) => {
 			return (
 				<li
@@ -67,6 +86,23 @@ class RepoList extends Component {
 							</ol>
 						</div>
 						<div className="col-xs-6">
+							<div className="form-group">
+								<label
+									htmlFor="sort-select"
+									className="control-label"
+								>
+									Sort by...
+								</label>
+								<select
+									className="form-control"
+									onChange={event => this.setState({sortKey: event.target.value})}
+								>
+									<option defaultValue={""}></option>
+									<option value="title">Title</option>
+									<option value="created_at">Created</option>
+									<option value="body">Description</option>
+								</select>
+							</div>
 							<ol className="list-group">
 								{this.renderIssues()}
 							</ol>
